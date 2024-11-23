@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           const Profile(),
           const Chat(),
           const Leaderboard(),
-          const Nutrition()
+          Nutrition()
         ][currentPageIndex],
       )
       : const OnBoardingScreen();
