@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/pages/home_page.dart';
+import 'package:flutter_application_2/pages/login.dart';
+import 'package:flutter_application_2/pages/workouts.dart';
 import 'package:flutter_application_2/widgets/avatar_card_widget.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -58,7 +61,10 @@ class _RegisterState extends State<Register> {
         leading: IconButton(
           icon: const Icon(LineAwesomeIcons.arrow_left_solid),
           color: Colors.white,
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+
+          },
         ),
       ),
       backgroundColor: Colors.white,
@@ -299,7 +305,10 @@ class _RegisterState extends State<Register> {
       } finally {
         setState(() {
           _isLoading = false;
+          
         });
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
+
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

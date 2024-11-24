@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_2/pages/home_page.dart';
 import 'package:flutter_application_2/pages/register.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -71,6 +72,7 @@ class _LoginState extends State<Login> {
         setState(() {
           _isLoading = false;
         });
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
