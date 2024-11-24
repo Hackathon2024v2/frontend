@@ -42,11 +42,9 @@ dependencies:
   flutter_native_splash: ^2.4.3
   smooth_page_indicator: ^1.2.0
   get: ^4.6.6
-<<<<<<< HEAD
   carousel_slider: ^5.0.0
-=======
   http: ^1.2.2
->>>>>>> 95dc31410a8ead62c0a32322504699fcf342a262
+
 
 dev_dependencies:
   flutter_test:
