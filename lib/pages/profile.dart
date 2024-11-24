@@ -18,9 +18,9 @@ class Profile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: color,
-        title: const Text(
-          'samy issiakhem',
-          style: TextStyle(
+        title: Text(
+          "${user.first_name} ${user.last_name}",
+          style: const TextStyle(
             color: Colors.white, // Red color
             fontStyle: FontStyle.italic, // Italic style
             fontSize: 24, // Optional: Adjust size
@@ -58,10 +58,6 @@ class Profile extends StatelessWidget {
                         "${user.prefix} ${user.avatar}",
                         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        "user.prefixuser.type",
-                        style: const TextStyle(fontSize: 16),
-                      )
                     ],
                   ),
                 ],
@@ -82,49 +78,45 @@ class Profile extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ProfileAttribute(label: "Poids", value: "${user.weight} kg"),
+                        ProfileAttribute(label: "Age", value: "${DateTime.now().year - user.year} yo"),
                         const SizedBox(height: 10),
-                        ProfileAttribute(label: "Taille", value: "${user.height} m")
+                        ProfileAttribute(label: "Weight", value: "${user.weight} kg"),
+                        const SizedBox(height: 10),
+                        ProfileAttribute(label: "Height", value: "${user.height} cm")
                       ],
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              /*
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
-                  Expanded(child: ProfileAttribute(label: "Niveau atteint", value: "${user.previousLevelScore} pts")),
                   const SizedBox(width: 8),
-                  Expanded(child: ProfileAttribute(label: "XP actuel", value: "${user.score}")),
-                  const SizedBox(width: 8),
-                  Expanded(child: ProfileAttribute(label: "Prochain niveau", value: "${user.nextLevelScore} pts"))
+                  Expanded(child: ProfileAttribute(label: "Score", value: "${user.score}")),
                 ],
               ),
-              */
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  Text("(user.score - user.previousLevelScore) / (user.nextLevelScore - user.previousLevelScore) * 100 }%"),
-                  const SizedBox(width: 8),
-                  /*Expanded(
-                    child:
-                    LinearProgressIndicator(
-                      value: (user.score - user.previousLevelScore) / (user.nextLevelScore - user.previousLevelScore),
-                    ),
-                  ),*/
-                ],
-              ),
-              /*
-              const SizedBox(height: 16),
-              ProfileAttribute(label: "État émotionnel", value: user.emotion),
-              const SizedBox(height: 8),
-              ProfileAttribute(label: "Intelligence", value: user.intelligence),
-              const SizedBox(height: 8),
-              ProfileAttribute(label: "Objectif", value: user.objective),
-              */
+              // const Row(
+              //   children: [
+              //     Text("(user.score - user.previousLevelScore) / (user.nextLevelScore - user.previousLevelScore) * 100 }%"),
+              //     SizedBox(width: 8),
+              //     // /*Expanded(
+              //     //   child:
+              //     //   LinearProgressIndicator(
+              //     //     value: (user.score - user.previousLevelScore) / (user.nextLevelScore - user.previousLevelScore),
+              //     //   ),
+              //     // ),*/
+              //   ],
+              // ),
+              // /*
+              // const SizedBox(height: 16),
+              // ProfileAttribute(label: "Mood", value: user.emotion),
+              // const SizedBox(height: 8),
+              // ProfileAttribute(label: "Intelligence", value: user.intelligence),
+              // const SizedBox(height: 8),
+              // ProfileAttribute(label: "Goal", value: user.objective),
+              // */
             ],
           ), 
         )

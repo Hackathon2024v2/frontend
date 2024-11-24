@@ -12,18 +12,18 @@ class ProfileAttribute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: color,
+        color: color.withOpacity(0.3),
         borderRadius: BorderRadius.circular(10)
       ),
       child: Center(
         child: Column(
           children: [
-            if (label != null) Text(label ?? "", style: TextStyle(fontSize: 12, color: Colors.white)),
+            if (label != null) Text(label ?? "", style: const TextStyle(fontSize: 12, color: Colors.black)),
             Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 18,
-                color: Colors.white
+                color: Colors.black
               )
             ),
           ],

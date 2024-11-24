@@ -113,8 +113,8 @@ class _EditingProfileState extends State<EditingProfile> {
             data: {
               'first_name': firstName,
               'last_name': lastName,
-              'height': double.parse(height),
-              'weight': double.parse(weight),
+              'height': height,
+              'weight': weight,
               'year': int.parse(age),
             },
           ),
@@ -178,35 +178,34 @@ class _EditingProfileState extends State<EditingProfile> {
 
             const SizedBox(height: 15),
             Padding(
-                padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                child: DropdownButtonFormField<int>(
-                  hint: const Text('Select Year'),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black, width: 0.5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+              child: DropdownButtonFormField<int>(
+                hint: const Text('Select Year'),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.black, width: 0.5),
+                    borderRadius: BorderRadius.circular(5),
                   ),
+                ),
 
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey.withOpacity(0.7),
-                  ),
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey.withOpacity(0.7),
+                ),
 
-                  value: _selectedYear,
-                  items: years.map((year) {
-                    return DropdownMenuItem<int>(
-                      value: year,
-                      child: Text(year.toString()),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _ageController.text = value?.toString() ?? '';
-                    });
-                  },
-                )
+                value: _selectedYear,
+                items: years.map((year) {
+                  return DropdownMenuItem<int>(
+                    value: year,
+                    child: Text(year.toString()),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _ageController.text = value?.toString() ?? '';
+                  });
+                },
+              )
             ),
 
             const SizedBox(height: 15),
@@ -249,10 +248,10 @@ class _EditingProfileState extends State<EditingProfile> {
     if (user != null && user.userMetadata != null) {
       _firstNameController.text = user.userMetadata?['first_name'] ?? '';
       _lastNameController.text = user.userMetadata?['last_name'] ?? '';
-      _selectedYear = DateTime.now().year - int.parse(user.userMetadata?['age']?? '0');
-      _ageController.text = _selectedYear?.toString()?? '';
-      _heightController.text = user.userMetadata?['height']?? '';
-      _weightController.text = user.userMetadata?['weight']?? '';
+      _selectedYear = int.parse(user.userMetadata?['year'].toString() ?? '2000');
+      _heightController.text = user.userMetadata?['height'].toString() ?? '0.0';
+      _weightController.text = user.userMetadata?['weight'].toString() ?? '0.0';
+      _ageController.text = _selectedYear?.toString()?? '2000';
     }
   }
 

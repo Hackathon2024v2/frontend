@@ -321,8 +321,8 @@ class _RegisterState extends State<Register> {
           data: {
             'first_name': firstName[0].toUpperCase() + firstName.substring(1),
             'last_name': lastName[0].toUpperCase() + lastName.substring(1),
-            'height': double.parse(height),
-            'weight': double.parse(weight),
+            'height': height,
+            'weight': weight,
             'year': int.parse(age),
             'avatar': chosenPath.split('/')[2].split('.')[0],
           },
