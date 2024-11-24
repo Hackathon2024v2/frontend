@@ -11,7 +11,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../objects/ProfileUser.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -70,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
           const Leaderboard(),
           const Nutrition(),
           const Chat(),
-          Profile(user: userPlaceholder),
+          //Profile(),
         ][currentPageIndex],
       )
       : const OnBoardingScreen();

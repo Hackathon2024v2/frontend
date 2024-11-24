@@ -10,12 +10,7 @@ class Leaderboard extends StatefulWidget {
 }
 
 class _LeaderboardState extends State<Leaderboard> {
-  List<User> users = [
-    User(username: "Mathieu", prefix: "Swimming", height: 5.20, score: 1000),
-    User(username: "Alex", prefix: "", height: 5.20, score: 1002),
-    User(username: "Nathan", prefix: "Flying", height:  5.20, score: 1003),
-    User(username: "Samy", prefix: "", height: 5.20, score: 10011),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +28,7 @@ class _LeaderboardState extends State<Leaderboard> {
         backgroundColor: color,
       ),
       body: ListView.separated(
-          itemCount: users.length,
+          itemCount: 5,
           padding: const EdgeInsets.all(10),
           itemBuilder: (BuildContext context, int index) {
             return Container(
@@ -72,8 +67,8 @@ class _LeaderboardState extends State<Leaderboard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("${users[index].prefix} ${users[index].username}"),
-                      Text("Score: ${users[index].score}")
+                      Text("{users[index].prefix} {users[index].username}"),
+                      Text("Score: {users[index].score}")
                     ],
                   )
                 ],

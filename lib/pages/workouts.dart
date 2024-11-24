@@ -12,8 +12,7 @@ class Workouts extends StatefulWidget {
 }
 
 class _WorkoutsState extends State<Workouts> {
-  User userRaw =
-      User(username: "Chill guy", prefix: "Just a ", height: 6.20, score: 900);
+
 
   @override
   Widget build(BuildContext context) {

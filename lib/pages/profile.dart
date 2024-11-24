@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/objects/ProfileUser.dart';
 import 'package:flutter_application_2/pages/settings.dart';
 import 'package:flutter_application_2/widgets/profile_attribute.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -10,7 +9,7 @@ import '../main.dart';
 final supabase = Supabase.instance.client;
 
 class Profile extends StatelessWidget {
-  final ProfileUser user;
+  final User user;
   const Profile({super.key, required this.user});
 
   @override
@@ -55,9 +54,13 @@ class Profile extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        "${user.prefix} ${user.type}",
+                        "{user.prefix} {user.type}",
                         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
+                      Text(
+                        "user.prefixuser.type",
+                        style: const TextStyle(fontSize: 16),
+                      )
                     ],
                   ),
                 ],
@@ -78,20 +81,18 @@ class Profile extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ProfileAttribute(label: "Sexe", value: user.sex),
-                        const SizedBox(height: 10),
-                        ProfileAttribute(label: "Âge", value: "${user.age} ans"),
-                        const SizedBox(height: 10),
+                        /*
                         ProfileAttribute(label: "Poids", value: "${user.weight} kg"),
                         const SizedBox(height: 10),
                         ProfileAttribute(label: "Taille", value: "${user.height} m")
+                        */
                       ],
                     ),
                   ),
                 ],
               ),
-              ProfileAttribute(label: "Niveau", value: user.level),
               const SizedBox(height: 8),
+              /*
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -103,27 +104,30 @@ class Profile extends StatelessWidget {
                   Expanded(child: ProfileAttribute(label: "Prochain niveau", value: "${user.nextLevelScore} pts"))
                 ],
               ),
+              */
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Text("${(user.score - user.previousLevelScore) / (user.nextLevelScore - user.previousLevelScore) * 100 }%"),
+                  Text("(user.score - user.previousLevelScore) / (user.nextLevelScore - user.previousLevelScore) * 100 }%"),
                   const SizedBox(width: 8),
-                  Expanded(
+                  /*Expanded(
                     child:
                     LinearProgressIndicator(
                       value: (user.score - user.previousLevelScore) / (user.nextLevelScore - user.previousLevelScore),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
+              /*
               const SizedBox(height: 16),
               ProfileAttribute(label: "État émotionnel", value: user.emotion),
               const SizedBox(height: 8),
               ProfileAttribute(label: "Intelligence", value: user.intelligence),
               const SizedBox(height: 8),
               ProfileAttribute(label: "Objectif", value: user.objective),
+              */
             ],
-          ),
+          ), 
         )
       ),
     );
