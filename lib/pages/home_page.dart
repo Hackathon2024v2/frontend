@@ -7,6 +7,8 @@ import 'package:flutter_application_2/pages/workouts.dart';
 import 'package:flutter_application_2/pages/chat.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../objects/ProfileUser.dart';
+
 final supabase = Supabase.instance.client;
 
 class MyHomePage extends StatefulWidget {
@@ -56,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
        body:
         [
           const Workouts(),
-          const Profile(),
+          Profile(user: userPlaceholder),
           const Chat(),
           const Leaderboard(),
           Nutrition()

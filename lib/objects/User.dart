@@ -1,8 +1,8 @@
 class User {
-  final String? username;
-  final String? prefix;
-  final double? height;
-  final int? score;
+  final String username;
+  final String prefix;
+  final double height;
+  final int score;
 
   User({
     required this.username,
@@ -10,5 +10,4 @@ class User {
     required this.height,
     required this.score
   });
-
 }
