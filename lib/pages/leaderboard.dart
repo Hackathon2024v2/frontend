@@ -23,12 +23,12 @@ class _LeaderboardState extends State<Leaderboard> {
       itemBuilder: (BuildContext context, int index) {
         return Container(
           height: 50,
-          color: Colors.red,
+          color: Colors.blue[100],
           child: Row(
             children: [
               Stack(
                 children: [
-                  Text('#$index',
+                  Text('#${index+1}',
                   style: TextStyle(
                     fontSize: 35,
                     fontStyle: FontStyle.italic,
@@ -36,13 +36,21 @@ class _LeaderboardState extends State<Leaderboard> {
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = 2
                       ..color = Colors.blue
+                    ),
+                  ),
+                  Text('#${index+1}',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.yellow,
+                    fontStyle: FontStyle.italic
                   ),)
                 ],
               ),
+              SizedBox(width: 10,),
               ClipOval(
                 child: SizedBox.fromSize(
-                  size: Size.fromRadius(40),
-                  child: Placeholder(),
+                  size: Size.fromRadius(20),
+                  child: Image.network("https://play-lh.googleusercontent.com/0_kMh3ElxON8vTXO_bt2rpczk_KY_Kh65_HQNO-QVxz7GKbjvrljkIUWGI56YpsGGw=w240-h480-rw", fit: BoxFit.cover,),
                 ),
               ),
               const SizedBox(width: 75,),
