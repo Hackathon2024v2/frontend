@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/pages/exercise_page.dart';
 import 'package:flutter_application_2/pages/info_gym.dart';
 import 'package:flutter_application_2/pages/info_page.dart';
 import 'package:flutter_application_2/widgets/workout_type_button.dart';
