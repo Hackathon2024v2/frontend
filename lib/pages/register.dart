@@ -325,6 +325,7 @@ class _RegisterState extends State<Register> {
             'weight': weight,
             'year': int.parse(age),
             'avatar': chosenPath.split('/')[2].split('.')[0],
+            "score": int.parse('0')
           },
         );
 
