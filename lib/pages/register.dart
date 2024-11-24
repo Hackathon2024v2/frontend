@@ -86,28 +86,28 @@ class _RegisterState extends State<Register> {
 
             const SizedBox(height: 15),
             Padding(
-                padding: const EdgeInsets.fromLTRB(25, 0, 35, 0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        'Personal information',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.black, // Set the text color to black
-                          decoration: TextDecoration.underline,
-                        ),
+              padding: const EdgeInsets.fromLTRB(25, 0, 35, 0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      'Personal information',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Colors.black, // Set the text color to black
+                        decoration: TextDecoration.underline,
                       ),
                     ),
+                  ),
 
-                    buildTextField(
-                      labelText: 'First name',
-                      controller: _firstNameController,
-                      hintText: "Enter your first name",
-                      validator: inputValidator,
-                    ),
-                  ],
-                )
+                  buildTextField(
+                    labelText: 'First name',
+                    controller: _firstNameController,
+                    hintText: "Enter your first name",
+                    validator: inputValidator,
+                  ),
+                ],
+              )
             ),
 
             const SizedBox(height: 15),
@@ -273,7 +273,7 @@ class _RegisterState extends State<Register> {
       String lastName = _lastNameController.text;
 
       try {
-        final response = await supabase.auth.signUp(
+        final registerResponse = await supabase.auth.signUp(
           email: email,
           password: password,
           data: {
@@ -285,11 +285,20 @@ class _RegisterState extends State<Register> {
           },
         );
 
-        if (response.user != null) {
+
+        if (registerResponse.user != null) {
+          await supabase.from('users').insert({
+            "first_name": firstName[0].toUpperCase() + firstName.substring(1),
+            "last_name": lastName[0].toUpperCase() + lastName.substring(1),
+            "height": double.parse(_heightController.text),
+            "weight": double.parse(_weightController.text),
+            "avatar": chosenPath.split('/')[2].split('.')[0],
+          });
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Registration successful! Welcome, ${response.user!.userMetadata?['first_name']}"),
+                content: Text("Registration successful! Welcome, ${registerResponse.user!.userMetadata?['first_name']}"),
+
               ),
             );
           }

@@ -79,5 +79,5 @@ class _MyHomePageState extends State<MyHomePage> {
 
 bool userLoggedIn() {
   final session = supabase.auth.currentSession;
-  return session != null;
+  return false;
 }
