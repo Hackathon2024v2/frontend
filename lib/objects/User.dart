@@ -36,8 +36,20 @@ class UserData {
     year = metadata?['year'] ?? 0;
   }
 
+  UserData.fromJson(Map<String, dynamic> json){
+    id = json['id'];
+    first_name = json['first_name'];
+    last_name = json['last_name'];
+    prefix = json['prefix'];
+    height = json['height'];
+    weight = json['weight'];
+    score = json['score'];
+    avatar = json['avatar'];
+    year = json['year'];
+  }
+
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
     data['first_name'] = first_name;
     data['last_name'] = last_name;

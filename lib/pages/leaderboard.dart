@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/main.dart';
 import 'package:flutter_application_2/objects/User.dart';
 import 'package:flutter_application_2/pages/home_page.dart';
+import 'package:get/get.dart';
 
 class Leaderboard extends StatefulWidget {
-  const Leaderboard({super.key});
+  const Leaderboard(this.users, {super.key, });
+  final List users;
 
   @override
   State<Leaderboard> createState() => _LeaderboardState();
@@ -12,17 +14,6 @@ class Leaderboard extends StatefulWidget {
 
 class _LeaderboardState extends State<Leaderboard> {
 
-  
-  
-
-
-  late Future<List<UserData>> _futureLeaderboard;
-
-  @override
-  Future<void> initState() async {
-    super.initState();
-    _futureLeaderboard = (await supabase.from('users').select().order('score', ascending: false)) as Future<List<UserData>>;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +31,7 @@ class _LeaderboardState extends State<Leaderboard> {
         backgroundColor: color,
       ),
       body: ListView.separated(
-          itemCount: 5,
+          itemCount: widget.users.length,
           padding: const EdgeInsets.all(10),
           itemBuilder: (BuildContext context, int index) {
             return Container(
@@ -72,15 +63,15 @@ class _LeaderboardState extends State<Leaderboard> {
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: Size.fromRadius(20),
-                      child: Image.network("https://play-lh.googleusercontent.com/0_kMh3ElxON8vTXO_bt2rpczk_KY_Kh65_HQNO-QVxz7GKbjvrljkIUWGI56YpsGGw=w240-h480-rw", fit: BoxFit.cover,),
+                      child: Image.asset('assets/animals/${widget.users[index]['avatar']}.gif'),
                     ),
                   ),
                   const SizedBox(width: 75,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("{users[index].prefix} {users[index].username}"),
-                      Text("Score: {users[index].score}")
+                      Text("${widget.users[index]['prefix']} ${widget.users[index]['first_name']} ${widget.users[index]['last_name']}"),
+                      Text("Score: ${widget.users[index]['score']}")
                     ],
                   )
                 ],

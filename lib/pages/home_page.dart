@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_2/main.dart';
@@ -15,6 +17,12 @@ import '../objects/User.dart';
 
 final supabase = Supabase.instance.client;
 
+Future<List> getLeaderboardData() async {
+  final response = await supabase.from('users').select().order('score', ascending: false);
+  final List data = response;
+  return data;
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -24,6 +32,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
+
+  
+
+  late Future<List> _futureLeaderboard;
+  
+  @override
+  void initState(){
+    super.initState();
+    _futureLeaderboard = getLeaderboardData();
+  }
+  
 
   // TextEditingControllers to capture input from the dialog
   final TextEditingController _titleController = TextEditingController();
@@ -44,7 +63,28 @@ class _MyHomePageState extends State<MyHomePage> {
       ));
 
     return userLoggedIn() == true ?
-      Scaffold(
+    FutureBuilder(future: _futureLeaderboard, builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting){
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      if (snapshot.hasError){
+        return Center(
+          child: Text('${snapshot.error}'),
+        );
+      }
+
+      if (!snapshot.hasData || snapshot.data!.isEmpty){
+        return Center(
+          child: Text('No users found'),
+        );
+      }
+
+      List usersData = snapshot.data!;
+
+      return Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: NavigationBar(
           height: 70,
@@ -67,12 +107,14 @@ class _MyHomePageState extends State<MyHomePage> {
        body:
         [
           const Workouts(),
-          const Leaderboard(),
+          Leaderboard(usersData),
           const Nutrition(),
           const Chat(),
           Profile(user: UserData.fromMetadata(supabase.auth.currentSession!.user.userMetadata)),
         ][currentPageIndex],
-      )
+      );
+    })
+      
       : const OnBoardingScreen();
   }
 

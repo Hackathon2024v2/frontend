@@ -15,7 +15,7 @@ final listAvatars = [
   'assets/animals/lion.gif',
   'assets/animals/monkey.gif',
   'assets/animals/whale.gif',
-  'assets/animals/wolf.webp',
+  'assets/animals/wolf.gif',
 ];
 
 class Register extends StatefulWidget {
