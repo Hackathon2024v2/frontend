@@ -23,6 +23,7 @@ class UserData {
   });
 
   // Method to create a User object from a Map (e.g., from userMetadata)
+<<<<<<< HEAD
   UserData.fromMetadata(Map<String, dynamic>? metadata) {
     id = metadata?['id'] ?? 0; // Default value if not present
     first_name = metadata?['first_name'] ?? ''; // Default empty string if not present
@@ -33,6 +34,30 @@ class UserData {
     score = metadata?['score'] ?? 0;
     avatar = metadata?['avatar'] ?? '';
     year = metadata?['year'] ?? 0;
+=======
+  UserData.fromMetadata(Map<String, dynamic> metadata) {
+    id = metadata['id'] ?? 0; // Default value if not present
+    first_name = metadata['first_name'] ?? ''; // Default empty string if not present
+    last_name = metadata['last_name'] ?? '';
+    prefix = metadata['prefix'] ?? '';
+    height = metadata['height']?.toDouble() ?? 0.0; // Ensure height is a double
+    weight = metadata['weight']?.toDouble() ?? 0.0; // Ensure weight is a double
+    score = metadata['score'] ?? 0;
+    avatar = metadata['avatar'] ?? '';
+    year = metadata['year'] ?? 0;
+  }
+
+  UserData.fromJson(Map<String, dynamic> json) {
+    id = json['int'];
+    first_name = json['first_name'];
+    last_name = json['last_name'];
+    prefix = json['prefix'];
+    height = json['height'];
+    weight = json['weight'];
+    score = json['score'];
+    avatar = json['avatar'];
+    year = json['year'];
+>>>>>>> 0af1af5028e97ed66a9cdc777951f75850cc32d7
   }
 
   Map<String, dynamic> toJson() {
