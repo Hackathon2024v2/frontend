@@ -86,28 +86,28 @@ class _RegisterState extends State<Register> {
 
             const SizedBox(height: 15),
             Padding(
-                padding: const EdgeInsets.fromLTRB(25, 0, 35, 0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        'Personal information',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.black, // Set the text color to black
-                          decoration: TextDecoration.underline,
-                        ),
+              padding: const EdgeInsets.fromLTRB(25, 0, 35, 0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      'Personal information',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Colors.black, // Set the text color to black
+                        decoration: TextDecoration.underline,
                       ),
                     ),
+                  ),
 
-                    buildTextField(
-                      labelText: 'First name',
-                      controller: _firstNameController,
-                      hintText: "Enter your first name",
-                      validator: inputValidator,
-                    ),
-                  ],
-                )
+                  buildTextField(
+                    labelText: 'First name',
+                    controller: _firstNameController,
+                    hintText: "Enter your first name",
+                    validator: inputValidator,
+                  ),
+                ],
+              )
             ),
 
             const SizedBox(height: 15),

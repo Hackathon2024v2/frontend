@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/objects/ProfileUser.dart';
+import 'package:flutter_application_2/pages/settings.dart';
 import 'package:flutter_application_2/widgets/profile_attribute.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../main.dart';
+
+final supabase = Supabase.instance.client;
 
 class Profile extends StatelessWidget {
   final ProfileUser user;
@@ -9,6 +17,33 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: color,
+        title: const Text(
+          'samy issiakhem',
+          style: TextStyle(
+            color: Colors.white, // Red color
+            fontStyle: FontStyle.italic, // Italic style
+            fontSize: 24, // Optional: Adjust size
+          ),
+        ),
+        elevation: 0,
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(LineAwesomeIcons.bars_solid),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Settings()),
+              );
+            },
+          ),
+        ],
+
+      ),
+
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child:Padding(
@@ -98,4 +133,10 @@ class Profile extends StatelessWidget {
       ),
     );
   }
+
+  bool isUserSignedIn() {
+    final session = supabase.auth.currentSession;
+    return session != null;
+  }
+
 }
