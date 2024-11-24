@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         statusBarIconBrightness: Brightness.dark,
       ));
 
-    return userLoggedIn() == true ?
+    return userLoggedIn() == false ?
       Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: NavigationBar(
@@ -68,8 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
         [
           const Workouts(),
           const Leaderboard(),
-          Nutrition(),
-          Chat(),
+          const Nutrition(),
+          const Chat(),
           Profile(user: userPlaceholder),
         ][currentPageIndex],
       )
