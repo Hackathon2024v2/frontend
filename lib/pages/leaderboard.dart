@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/main.dart';
 import 'package:flutter_application_2/objects/User.dart';
+import 'package:flutter_application_2/pages/home_page.dart';
 
 class Leaderboard extends StatefulWidget {
   const Leaderboard({super.key});
@@ -11,6 +12,14 @@ class Leaderboard extends StatefulWidget {
 
 class _LeaderboardState extends State<Leaderboard> {
 
+  
+  late Future<List<User>> _futureLeaderboard;
+
+  @override
+  Future<void> initState() async {
+    super.initState();
+    _futureLeaderboard = (await supabase.from('users').select().order('score', ascending: false)) as Future<List<User>>;
+  }
 
   @override
   Widget build(BuildContext context) {
