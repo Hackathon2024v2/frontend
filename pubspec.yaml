@@ -42,7 +42,9 @@ dependencies:
   flutter_native_splash: ^2.4.3
   smooth_page_indicator: ^1.2.0
   get: ^4.6.6
+  carousel_slider: ^5.0.0
   http: ^1.2.2
+
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +64,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/icons/
+    - assets/animals/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
