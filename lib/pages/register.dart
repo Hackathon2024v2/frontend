@@ -34,9 +34,9 @@ class _RegisterState extends State<Register> {
   bool isTapped = false;
 
   final List<int> years = List<int>.generate(
-    DateTime.now().year - 1900 + 1,
-        (index) => DateTime.now().year - index,
-  ); // Generates years from currentYear to 1900.
+    DateTime.now().year - 1900 - 18 + 1, // From (currentYear - 18) to 1900
+        (index) => DateTime.now().year - 18 - index,
+  );
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -127,14 +127,23 @@ class _RegisterState extends State<Register> {
             ),
 
             const SizedBox(height: 15),
-            Container(
+            Padding(
                 padding: const EdgeInsets.fromLTRB(25, 0, 35, 0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: DropdownButton<int>(
+                child: DropdownButtonFormField<int>(
                   hint: const Text('Select Year'),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black, width: 0.5),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 10),
+                  ),
+
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey.withOpacity(0.7),
+                  ),
+
                   value: _selectedYear,
                   items: years.map((year) {
                     return DropdownMenuItem<int>(
