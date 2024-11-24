@@ -46,7 +46,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
-  final int _ageValue = 0;
+  int? _selectedYear;
 
   @override
   Widget build(BuildContext context) {
@@ -127,11 +127,15 @@ class _RegisterState extends State<Register> {
             ),
 
             const SizedBox(height: 15),
-            Padding(
+            Container(
                 padding: const EdgeInsets.fromLTRB(25, 0, 35, 0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: DropdownButton<int>(
                   hint: const Text('Select Year'),
-                  value: _ageValue,
+                  value: _selectedYear,
                   items: years.map((year) {
                     return DropdownMenuItem<int>(
                       value: year,
@@ -282,6 +286,7 @@ class _RegisterState extends State<Register> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmController.dispose();
+    _ageController.dispose();
     super.dispose();
   }
 
@@ -296,6 +301,7 @@ class _RegisterState extends State<Register> {
       String password = _passwordController.text;
       String firstName = _firstNameController.text;
       String lastName = _lastNameController.text;
+      String age = _ageController.text;
 
       try {
         final registerResponse = await supabase.auth.signUp(
@@ -306,6 +312,7 @@ class _RegisterState extends State<Register> {
             'last_name': lastName[0].toUpperCase() + lastName.substring(1),
             'height': double.parse(_heightController.text),
             'weight': double.parse(_weightController.text),
+            'year': int.parse(age),
             'avatar': chosenPath.split('/')[2].split('.')[0],
           },
         );
@@ -349,6 +356,29 @@ class _RegisterState extends State<Register> {
         const SnackBar(content: Text("Please fill in all required fields")),
       );
     }
+  }
+
+
+  Widget _buildDropdownField() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 15),
+      child: DropdownButtonFormField<int>(
+        hint: const Text('Select Year'),
+        value: _selectedYear, // This must match exactly one DropdownMenuItem's value or be null.
+        items: years.map((year) {
+          return DropdownMenuItem<int>(
+            value: year,
+            child: Text(year.toString()),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            _selectedYear = value;
+          });
+        },
+        validator: (value) => value == null ? 'Please select a year' : null,
+      ),
+    );
   }
 
 
