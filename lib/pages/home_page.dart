@@ -11,6 +11,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../objects/User.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -42,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         statusBarIconBrightness: Brightness.dark,
       ));
 
-    return userLoggedIn() == false ?
+    return userLoggedIn() == true ?
       Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: NavigationBar(
@@ -69,14 +70,15 @@ class _MyHomePageState extends State<MyHomePage> {
           const Leaderboard(),
           const Nutrition(),
           const Chat(),
-          //Profile(),
+          Profile(user: UserData.fromMetadata(supabase.auth.currentSession!.user.userMetadata)),
         ][currentPageIndex],
       )
       : const OnBoardingScreen();
   }
+
+  bool userLoggedIn() {
+    final session = supabase.auth.currentSession;
+    return session != null;
+  }
 }
 
-bool userLoggedIn() {
-  final session = supabase.auth.currentSession;
-  return false;
-}

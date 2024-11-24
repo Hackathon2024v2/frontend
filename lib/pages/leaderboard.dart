@@ -16,6 +16,13 @@ class _LeaderboardState extends State<Leaderboard> {
   
 
 
+  late Future<List<UserData>> _futureLeaderboard;
+
+  @override
+  Future<void> initState() async {
+    super.initState();
+    _futureLeaderboard = (await supabase.from('users').select().order('score', ascending: false)) as Future<List<UserData>>;
+  }
 
   @override
   Widget build(BuildContext context) {
