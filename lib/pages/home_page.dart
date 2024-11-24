@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
         statusBarIconBrightness: Brightness.dark,
       ));
 
-    return userLoggedIn() == true ?
+    return userLoggedIn() == false ?
       Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: NavigationBar(
