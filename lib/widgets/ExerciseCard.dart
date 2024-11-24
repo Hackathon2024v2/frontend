@@ -1,61 +1,72 @@
 import 'package:flutter/material.dart';
-import '../pages/info_page.dart';
 
-class NoteCard extends StatelessWidget {
-  final String title;
-  final bool isDone;
-  final ValueChanged<bool?> onChanged;
-  final VoidCallback deleteNote;
-  final String body;
+class ExerciseCard extends StatelessWidget {
+  final String exerciseName;
+  final String exerciseImg;
+  final String exerciseMuscle;
 
-  const NoteCard({
-    super.key,
-    required this.title,
-    required this.isDone,
-    required this.onChanged,
-    required this.deleteNote,
-    required this.body
-  });
+  const ExerciseCard({
+    Key? key,
+    required this.exerciseName,
+    required this.exerciseImg,
+    required this.exerciseMuscle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  InfoNote(title: title, body:body)),
-      );
-    },
-    child: Container(
-      padding: const EdgeInsets.all(8.0),
-      margin: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: Colors.deepPurple[100],
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Checkbox(
-                value: isDone, 
-                onChanged: onChanged,
-                activeColor: Colors.deepPurple[800],
-              ),
-              Text(
-                title,
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: deleteNote,
-                icon: Icon(Icons.delete, color: Colors.grey[800]),
-              ),
-            ],
+          ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+            child: Image.network(
+              exerciseImg,
+              width: double.infinity,
+              height: 150,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: 150,
+                  color: Colors.grey[300],
+                  child: Icon(
+                    Icons.image_not_supported,
+                    color: Colors.grey[600],
+                    size: 50,
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  exerciseName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  exerciseMuscle,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/objects/User.dart';
 import 'package:flutter_application_2/pages/info_gym.dart';
+import 'package:flutter_application_2/pages/info_page.dart';
 
 import 'log_activity.dart';
 
@@ -17,6 +18,7 @@ class _WorkoutsState extends State<Workouts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< Updated upstream
       body: Column(
         children: [
           const SizedBox(
@@ -57,5 +59,43 @@ class _WorkoutsState extends State<Workouts> {
                 });
           }),
     );
+=======
+        body: Column(
+      children: [
+        const SizedBox(
+          height: 150,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+                child: Container(
+              color: Colors.amber,
+              child: const Text(
+                'Streak: 4',
+                textAlign: TextAlign.center,
+              ),
+            )),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => InfoGym()));
+                },
+                child: Text('gym info')),
+                ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => const InfoPage(activity_type: "swiming")));
+                },
+                child: const Text('activity` info')),
+                
+          ],
+        ),
+      ],
+    ));
+>>>>>>> Stashed changes
   }
 }
