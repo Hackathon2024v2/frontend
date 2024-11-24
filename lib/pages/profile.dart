@@ -55,13 +55,9 @@ class Profile extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        user.username,
+                        "${user.prefix} ${user.type}",
                         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        "${user.prefix} ${user.type}",
-                        style: const TextStyle(fontSize: 16),
-                      )
                     ],
                   ),
                 ],
@@ -73,7 +69,7 @@ class Profile extends StatelessWidget {
                   const Expanded(
                     flex: 2,
                     child: Image(
-                        image: AssetImage("assets/icons/gym.gif"),
+                        image: AssetImage("assets/animals/cat.gif"),
                         fit: BoxFit.contain
                     ),
                   ),

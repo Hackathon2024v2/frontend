@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../main.dart';
 import '../validators/validators.dart';
 import '../widgets/button_widget.dart';
+import '../widgets/input_widget.dart';
 
 class EditingProfile extends StatefulWidget {
   const EditingProfile({super.key});
@@ -13,6 +14,11 @@ class EditingProfile extends StatefulWidget {
   @override
   State<EditingProfile> createState() => _EditingProfileState();
 }
+
+final List<int> years = List<int>.generate(
+  DateTime.now().year - 1900 - 18 + 1, // From (currentYear - 18) to 1900
+      (index) => DateTime.now().year - 18 - index,
+);
 
 
 
@@ -23,6 +29,10 @@ class _EditingProfileState extends State<EditingProfile> {
 
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  int? _selectedYear;
 
   Future onRefresh() async {
     try {
@@ -78,6 +88,9 @@ class _EditingProfileState extends State<EditingProfile> {
   void dispose() {
     _firstNameController.dispose();
     _lastNameController.dispose();
+    _weightController.dispose();
+    _heightController.dispose();
+    _ageController.dispose();
     super.dispose();
   }
 
@@ -90,7 +103,9 @@ class _EditingProfileState extends State<EditingProfile> {
 
       String firstName = _firstNameController.text;
       String lastName = _lastNameController.text;
-
+      String age = _ageController.text;
+      String height = _heightController.text;
+      String weight = _weightController.text;
 
       try {
         final UserResponse response = await supabase.auth.updateUser(
@@ -98,6 +113,9 @@ class _EditingProfileState extends State<EditingProfile> {
             data: {
               'first_name': firstName,
               'last_name': lastName,
+              'height': double.parse(height),
+              'weight': double.parse(weight),
+              'year': int.parse(age),
             },
           ),
         );
@@ -130,111 +148,97 @@ class _EditingProfileState extends State<EditingProfile> {
 
   Widget content() {
     return SingleChildScrollView(
-        child: Form(
-            key: _formKey,
-            child: Container(
-              padding: const EdgeInsets.all(35),
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      SizedBox(
-                          width: 120,
-                          height: 120,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: const Image(
-                              image: AssetImage('assets/icons/847969.png'),
-                            ),
-                          )
-                      ),
-                      Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: color,
-                            ),
-                            child: const Icon(
-                              LineAwesomeIcons.camera_solid,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                          )
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 50),
-                  Form(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextFormField(
-                              controller: _firstNameController,
-                              validator: inputValidator,
-                              decoration: InputDecoration(
-                                label: const Text('First Name'),
-                                prefixIcon: const Icon(LineAwesomeIcons.user),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.black, width: 0.5),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                contentPadding: const EdgeInsets.only(left: 10),
-                                hintText: "Enter you first name",
-                                hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.withOpacity(0.7),
-                                ),
-                              ),
-                            ),
-                          ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            const SizedBox(height: 15),
 
-
-                          const SizedBox(height: 20),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextFormField(
-                              controller: _lastNameController,
-                              validator: inputValidator,
-                              decoration: InputDecoration(
-                                label: const Text('Last Name'),
-                                prefixIcon: const Icon(LineAwesomeIcons.user),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.black, width: 0.5),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                contentPadding: const EdgeInsets.only(left: 10),
-                                hintText: "Enter you last name",
-                                hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.withOpacity(0.7),
-                                ),
-                              ),
-                            ),
-                          ),
-
-
-                          const SizedBox(height: 60),
-                          buttonStyle(_isLoading ? 'Updating...' : 'Update', _isLoading ? null : _updateUser),
-
-                        ],
-                      )
-                  )
-                ],
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+              child: buildTextField(
+                labelText: 'First name',
+                controller: _firstNameController,
+                hintText: "Enter your first name",
+                validator: inputValidator,
               ),
-            )
+            ),
+
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+              child: buildTextField(
+                labelText: 'Last name',
+                controller: _lastNameController,
+                hintText: "Enter your last name",
+                validator: inputValidator,
+              ),
+            ),
+
+            const SizedBox(height: 15),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+                child: DropdownButtonFormField<int>(
+                  hint: const Text('Select Year'),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black, width: 0.5),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 10),
+                  ),
+
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey.withOpacity(0.7),
+                  ),
+
+                  value: _selectedYear,
+                  items: years.map((year) {
+                    return DropdownMenuItem<int>(
+                      value: year,
+                      child: Text(year.toString()),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _ageController.text = value?.toString() ?? '';
+                    });
+                  },
+                )
+            ),
+
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+              child: buildTextField(
+                  labelText: 'Height (cm)',
+                  controller: _heightController,
+                  hintText: "Enter your height (cm)",
+                  validator: validateHeight,
+                  keyboardType: TextInputType.number
+              ),
+            ),
+
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+              child: buildTextField(
+                  labelText: 'Weight (kg)',
+                  controller: _weightController,
+                  hintText: "Enter your weight (kg)",
+                  validator: validateWeight,
+                  keyboardType: TextInputType.number
+              ),
+            ),
+
+            const SizedBox(height: 60),
+            buttonStyle(_isLoading ? 'Updating...' : 'Update', _isLoading ? null : _updateUser),
+
+          ],
         )
+      )
     );
   }
 
@@ -245,6 +249,10 @@ class _EditingProfileState extends State<EditingProfile> {
     if (user != null && user.userMetadata != null) {
       _firstNameController.text = user.userMetadata?['first_name'] ?? '';
       _lastNameController.text = user.userMetadata?['last_name'] ?? '';
+      _selectedYear = DateTime.now().year - int.parse(user.userMetadata?['age']?? '0');
+      _ageController.text = _selectedYear?.toString()?? '';
+      _heightController.text = user.userMetadata?['height']?? '';
+      _weightController.text = user.userMetadata?['weight']?? '';
     }
   }
 

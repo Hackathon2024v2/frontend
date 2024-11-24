@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 class ProfileAttribute extends StatelessWidget {
   final String? label;
   final String value;
@@ -10,14 +12,20 @@ class ProfileAttribute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: color,
         borderRadius: BorderRadius.circular(10)
       ),
       child: Center(
         child: Column(
           children: [
-            if (label != null) Text(label ?? "", style: TextStyle(fontSize: 12),),
-            Text(value, style: TextStyle(fontSize: 18),),
+            if (label != null) Text(label ?? "", style: TextStyle(fontSize: 12, color: Colors.white)),
+            Text(
+              value,
+              style: TextStyle(
+                  fontSize: 18,
+                color: Colors.white
+              )
+            ),
           ],
         ),
       ),
