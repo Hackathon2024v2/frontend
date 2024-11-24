@@ -273,7 +273,7 @@ class _RegisterState extends State<Register> {
       String lastName = _lastNameController.text;
 
       try {
-        final response = await supabase.auth.signUp(
+        final registerResponse = await supabase.auth.signUp(
           email: email,
           password: password,
           data: {
@@ -285,11 +285,20 @@ class _RegisterState extends State<Register> {
           },
         );
 
-        if (response.user != null) {
+
+        if (registerResponse.user != null) {
+          await supabase.from('users').insert({
+            "first_name": firstName,
+            "last_name": lastName,
+            "height": double.parse(_heightController.text),
+            "weight": double.parse(_weightController.text),
+            "avatar": chosenPath.split('/')[2].split('.')[0],
+          });
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Registration successful! Welcome, ${response.user!.userMetadata?['first_name']}"),
+                content: Text("Registration successful! Welcome, ${registerResponse.user!.userMetadata?['first_name']}"),
+
               ),
             );
           }
