@@ -6,6 +6,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
+import 'onboarding.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -53,7 +54,7 @@ class _SettingsState extends State<Settings> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Login()),
+          MaterialPageRoute(builder: (context) => const OnBoardingScreen()),
         );
       }
     } catch (e) {

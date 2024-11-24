@@ -5,11 +5,12 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
+import '../objects/User.dart';
 
 final supabase = Supabase.instance.client;
 
 class Profile extends StatelessWidget {
-  final User user;
+  final UserData user;
   const Profile({super.key, required this.user});
 
   @override
@@ -54,7 +55,7 @@ class Profile extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        "{user.prefix} {user.type}",
+                        "${user.prefix} ${user.avatar}",
                         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       Text(
@@ -69,11 +70,11 @@ class Profile extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Expanded(
+                  Expanded(
                     flex: 2,
                     child: Image(
-                        image: AssetImage("assets/animals/cat.gif"),
-                        fit: BoxFit.contain
+                      image: AssetImage("assets/animals/${user.avatar}.gif"),
+                      fit: BoxFit.contain
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -81,11 +82,9 @@ class Profile extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        /*
                         ProfileAttribute(label: "Poids", value: "${user.weight} kg"),
                         const SizedBox(height: 10),
                         ProfileAttribute(label: "Taille", value: "${user.height} m")
-                        */
                       ],
                     ),
                   ),

@@ -51,6 +51,7 @@ class _LoginState extends State<Login> {
         final response = await Supabase.instance.client.auth.signInWithPassword(
           email: email,
           password: password,
+
         );
 
         if (response.user != null) {
@@ -72,7 +73,7 @@ class _LoginState extends State<Login> {
         setState(() {
           _isLoading = false;
         });
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyHomePage()));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
