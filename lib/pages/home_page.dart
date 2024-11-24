@@ -72,9 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       if (!snapshot.hasData || snapshot.data!.isEmpty){
-        return Center(
-          child: Text('No users found'),
-        );
+        return const OnBoardingScreen();
       }
 
       List usersData = snapshot.data!;
