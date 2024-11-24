@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/pages/exercise_page.dart';
 import 'package:flutter_application_2/pages/info_gym.dart';
 import 'package:flutter_application_2/pages/info_page.dart';
+import 'package:flutter_application_2/pages/log_activity.dart';
 import 'package:flutter_application_2/widgets/workout_type_button.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../main.dart';
@@ -40,26 +41,42 @@ class _WorkoutsState extends State<Workouts> {
               Center(
                 child: Row(
                   children: [
-                    WorkoutTypeButton(icon : 'assets/animals/gym.gif', title: 'GYM', destination: ExerciseActivity()),
-                    WorkoutTypeButton(icon : 'assets/animals/cardio.gif', title: 'CARDIO', destination: InfoGym()),
+                    WorkoutTypeButton(
+                        icon: 'assets/animals/gym.gif',
+                        title: 'GYM',
+                        destination: ExerciseActivity()),
+                    WorkoutTypeButton(
+                        icon: 'assets/animals/cardio.gif',
+                        title: 'CARDIO',
+                        destination: InfoGym()),
                   ],
                 ),
               ),
-
               Center(
                 child: Row(
                   children: [
-                    WorkoutTypeButton(icon : 'assets/animals/hiking.gif', title: 'HIKING', destination: InfoGym()),
-                    WorkoutTypeButton(icon : 'assets/animals/swimming.gif', title: 'SWIMMING', destination: InfoGym()),
+                    WorkoutTypeButton(
+                        icon: 'assets/animals/hiking.gif',
+                        title: 'HIKING',
+                        destination: InfoGym()),
+                    WorkoutTypeButton(
+                        icon: 'assets/animals/swimming.gif',
+                        title: 'SWIMMING',
+                        destination: InfoGym()),
                   ],
                 ),
               ),
-
               Center(
                 child: Row(
                   children: [
-                    WorkoutTypeButton(icon : 'assets/animals/gyminfo.gif', title: 'GYM INFO', destination: InfoGym()),
-                    const WorkoutTypeButton(icon : 'assets/animals/activities.gif', title: 'ACTIVITIES', destination: InfoPage(activity_type: "swimming")),
+                    WorkoutTypeButton(
+                        icon: 'assets/animals/gyminfo.gif',
+                        title: 'GYM INFO',
+                        destination: InfoGym()),
+                    const WorkoutTypeButton(
+                        icon: 'assets/animals/activities.gif',
+                        title: 'ACTIVITIES',
+                        destination: InfoPage(activity_type: "swimming")),
                   ],
                 ),
               ),
@@ -67,7 +84,16 @@ class _WorkoutsState extends State<Workouts> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+          label: const Text('Ajouter une activité'),
+          icon: const Icon(Icons.add),
+          onPressed: () => {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const LogActivity();
+                    })
+              }),
     );
   }
 }
-
