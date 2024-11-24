@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/main.dart';
-import 'package:flutter_application_2/objects/User.dart';
-import 'package:flutter_application_2/pages/home_page.dart';
-import 'package:get/get.dart';
 
 class Leaderboard extends StatefulWidget {
   const Leaderboard(this.users, {super.key, });
@@ -59,7 +56,7 @@ class _LeaderboardState extends State<Leaderboard> {
                         ),)
                     ],
                   ),
-                  const SizedBox(width: 10,),
+                  const SizedBox(width: 30,),
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: Size.fromRadius(20),
@@ -70,8 +67,8 @@ class _LeaderboardState extends State<Leaderboard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("${widget.users[index]['prefix']} ${widget.users[index]['first_name']} ${widget.users[index]['last_name']}"),
-                      Text("Score: ${widget.users[index]['score']}")
+                      Text("${widget.users[index]['prefix'] ?? '' } ${widget.users[index]['first_name']} ${widget.users[index]['last_name']}", textAlign: TextAlign.center,),
+                      Text("Score: ${widget.users[index]['score'] ?? '0'}", textAlign: TextAlign.center,)
                     ],
                   )
                 ],
