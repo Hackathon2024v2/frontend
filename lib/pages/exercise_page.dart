@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -11,42 +10,116 @@ class ExerciseActivity extends StatefulWidget {
 }
 
 class _ExerciseActivityState extends State<ExerciseActivity> {
-  final int _duration = 20;
+  final int _duration = 5;
   final CountDownController _controller = CountDownController();
-  Future<List<String>>? _imagesFuture;
-  String? _randomImage; // Variable to store the random image URL
+  String? _randomImage;
+  List<String> _remainingMuscles = [
+    'Chest',
+    'Back',
+    'Shoulders',
+    'Legs',
+    'Arms',
+    'Core',
+    'Glutes',
+    'Traps'
+  ];
+  bool _isComplete = false;
+  int _currentScore = 0; // Variable to store the current score
 
   @override
   void initState() {
     super.initState();
-    _imagesFuture = fetchDataWithDynamicList();
+    getCurrentPoints(); // Fetch the current score when the widget initializes
+    showNextImage(); // Start the process when the widget initializes
   }
 
-  Future<List<String>> fetchDataWithDynamicList() async {
+  // Fetch current score from Supabase
+  void getCurrentPoints() async {
     final supabase = Supabase.instance.client;
+    final userId = supabase.auth.currentUser?.id;
+
+    if (userId == null) {
+      debugPrint("No authenticated user.");
+      return;
+    }
 
     try {
-      final List<dynamic> response = await supabase
-          .from('exercises')
-          .select('exercise_img')
-          .eq('muscle', 'Chest');
+      final response = await supabase
+          .from('users')
+          .select('score')
+          .eq('user_uuid', userId)
+          .single();
 
-      final List<String> res =
-          response.map((row) => row['exercise_img'] as String).toList();
-
-      print(res); // Debugging
-      return res;
+      setState(() {
+        _currentScore = response['score'] ?? 0; // Default to 0 if score is not found
+      });
     } catch (e) {
-      print('Error fetching data: $e');
-      return [];
+      debugPrint("Error fetching current score: $e");
     }
   }
 
-  void pickRandomImage(List<String> images) {
-    final random = Random();
-    setState(() {
-      _randomImage = images[random.nextInt(images.length)];
-    });
+  // Post the updated score (currentScore + 10)
+  void postPoints() async {
+    final supabase = Supabase.instance.client;
+    final userId = supabase.auth.currentUser?.id;
+
+    if (userId == null) {
+      debugPrint("No authenticated user.");
+      return;
+    }
+
+    try {
+      await supabase
+          .from('users')
+          .update({
+            'score': _currentScore + 10, // Update score by adding 10
+          })
+          .eq('user_uuid', userId);
+
+      debugPrint("Points updated successfully for user: $userId");
+      setState(() {
+        _currentScore += 10; // Update local score to reflect change
+      });
+    } catch (e) {
+      debugPrint("Error updating points: $e");
+    }
+  }
+
+  // Show the next exercise image from Supabase
+  void showNextImage() async {
+    if (_remainingMuscles.isEmpty) {
+      setState(() {
+        _isComplete = true;
+        _controller.pause(); // Pause the countdown when all exercises are done
+      });
+      return;
+    }
+
+    final nextMuscle = _remainingMuscles.removeAt(0); // Get the next muscle
+    try {
+      final supabase = Supabase.instance.client;
+      final List<dynamic> response = await supabase
+          .from('exercises')
+          .select('exercise_img')
+          .eq('muscle', nextMuscle);
+
+      final List<String> newImages =
+          response.map((row) => row['exercise_img'] as String).toList();
+
+      if (newImages.isNotEmpty) {
+        setState(() {
+          _randomImage = newImages[0]; // Show the first image for the muscle
+          _controller.restart(); // Restart the countdown timer
+        });
+      } else {
+        debugPrint("No images found for muscle: $nextMuscle");
+        setState(() {
+          _randomImage = null;
+        });
+      }
+    } catch (e) {
+      debugPrint("Error fetching images: $e");
+    }
   }
 
   @override
@@ -57,9 +130,7 @@ class _ExerciseActivityState extends State<ExerciseActivity> {
       ),
       body: Column(
         children: [
-          // Timer section within a container
           Container(
-            // padding: const EdgeInsets.symmetric(vertical: 20),
             alignment: Alignment.topCenter,
             child: CircularCountDownTimer(
               duration: _duration,
@@ -83,111 +154,45 @@ class _ExerciseActivityState extends State<ExerciseActivity> {
               isTimerTextShown: true,
               autoStart: true,
               onStart: () => debugPrint('Countdown Started'),
-              onComplete: () => debugPrint('Countdown Ended'),
-              onChange: (String timeStamp) =>
-                  debugPrint('Countdown Changed $timeStamp'),
+              onComplete: () => showNextImage(), // Show next image when timer completes
             ),
           ),
           const SizedBox(height: 10),
-          FutureBuilder<List<String>>(
-            future: _imagesFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text("Error: ${snapshot.error}"));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text("No images found."));
-              }
-
-              final images = snapshot.data!;
-              // Ensure the random image is picked after the widget is built
-              if (_randomImage == null) {
-                // Using post-frame callback to set the random image after the first build
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  pickRandomImage(images);
-                });
-              }
-
-              return Column(
-                children: [
-                  if (_randomImage != null)
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width *
-                            0.5, // Adjust the width to be smaller
-                        maxHeight: MediaQuery.of(context).size.height *
-                            0.3, // Adjust the height to be smaller
-                      ),
-                      child: Image.network(
-                        _randomImage!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.broken_image, size: 50),
-                      ),
-                    ),
-                  const SizedBox(height: 10), // Reduced space between timer and image
-                  ElevatedButton(
-                    onPressed: () => pickRandomImage(images),
-                    child: const Text("Show Another Random Image"),
-                  ),
-                ],
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-          // Timer control buttons, centered
-          Align(
-            alignment: Alignment.topCenter,
-            child: Row(
+          if (_isComplete)
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _timerButton(
-                  title: "Start",
-                  onPressed: () {
-                    _controller.start();
-                  },
+                const Text(
+                  "Success! You've completed the exercise session!",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(width: 10),
-                _timerButton(
-                  title: "Pause",
-                  onPressed: () {
-                    _controller.pause();
-                    debugPrint("Pause ${_controller.isPaused}");
-                  },
-                ),
-                const SizedBox(width: 10),
-                _timerButton(
-                  title: "Resume",
-                  onPressed: () {
-                    _controller.resume();
-                    debugPrint("Resume ${_controller.isResumed}");
-                  },
-                ),
-                const SizedBox(width: 10),
-                _timerButton(
-                  title: "Restart",
-                  onPressed: () {
-                    _controller.restart();
-                  },
+                ElevatedButton(
+                  onPressed: postPoints,
+                  child: const Text("Update Points"),
                 ),
               ],
-            ),
-          ),
+            )
+          else if (_randomImage != null)
+            Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.5,
+                maxHeight: MediaQuery.of(context).size.height * 0.3,
+              ),
+              child: Image.network(
+                _randomImage!,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.broken_image, size: 50),
+              ),
+            )
+          else
+            const Center(child: Text("No image selected.")),
         ],
-      ),
-    );
-  }
-
-  Widget _timerButton({required String title, VoidCallback? onPressed}) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.purple),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        title,
-        style: const TextStyle(color: Colors.white),
       ),
     );
   }
