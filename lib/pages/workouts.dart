@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/pages/exercise_page.dart';
 import 'package:flutter_application_2/pages/info_gym.dart';
 import 'package:flutter_application_2/pages/info_page.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -47,7 +48,11 @@ class _WorkoutsState extends State<Workouts> {
                     height: 50.0, // Match height with ActivityCard
                     child: ElevatedButton(
                       onPressed: () {
-                        print("Add new gym activity");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExerciseActivity(),
+                        ));
                       },
                       child: const Icon(LineAwesomeIcons.plus_circle_solid),
                       style: ElevatedButton.styleFrom(
