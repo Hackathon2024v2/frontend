@@ -58,3 +58,12 @@ String? validateHeight(String? value) {
   }
   return null;
 }
+
+String? validateYear(String? value) {
+  if (value == null || value.isEmpty) return 'Please enter a valid year';
+  final int? year = int.tryParse(value);
+  if (year == null || year < 1900 || year > DateTime.now().year - 18) {
+    return 'Enter a year between 1900 and ${DateTime.now().year - 18}';
+  }
+  return null; // Valid year
+}
