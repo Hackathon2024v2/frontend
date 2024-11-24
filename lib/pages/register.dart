@@ -311,6 +311,8 @@ class _RegisterState extends State<Register> {
       String firstName = _firstNameController.text;
       String lastName = _lastNameController.text;
       String age = _ageController.text;
+      String height = _heightController.text;
+      String weight = _weightController.text;
 
       try {
         final registerResponse = await supabase.auth.signUp(
@@ -319,8 +321,8 @@ class _RegisterState extends State<Register> {
           data: {
             'first_name': firstName[0].toUpperCase() + firstName.substring(1),
             'last_name': lastName[0].toUpperCase() + lastName.substring(1),
-            'height': double.parse(_heightController.text),
-            'weight': double.parse(_weightController.text),
+            'height': double.parse(height),
+            'weight': double.parse(weight),
             'year': int.parse(age),
             'avatar': chosenPath.split('/')[2].split('.')[0],
           },

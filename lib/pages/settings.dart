@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/pages/edit_profile.dart';
 import 'package:flutter_application_2/pages/login.dart';
 import 'package:flutter_application_2/widgets/settings_menu.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -90,7 +91,12 @@ class _SettingsState extends State<Settings> {
                 SettingMenuWidget(
                   icon: LineAwesomeIcons.user_solid,
                   title: 'Update profile',
-                  onPress: () {},
+                  onPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const EditingProfile()),
+                    );
+                  },
                 ),
               ],
             ),
