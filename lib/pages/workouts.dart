@@ -40,7 +40,7 @@ class _WorkoutsState extends State<Workouts> {
               Center(
                 child: Row(
                   children: [
-                    WorkoutTypeButton(icon : 'assets/animals/gym.gif', title: 'GYM', destination: InfoGym()),
+                    WorkoutTypeButton(icon : 'assets/animals/gym.gif', title: 'GYM', destination: ExerciseActivity()),
                     WorkoutTypeButton(icon : 'assets/animals/cardio.gif', title: 'CARDIO', destination: InfoGym()),
                   ],
                 ),

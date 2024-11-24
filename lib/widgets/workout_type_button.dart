@@ -26,7 +26,7 @@ class WorkoutTypeButton extends StatelessWidget {
       },
       child: Container(
           width: MediaQuery.of(context).size.width * 0.41,
-          height: 175,
+          height: 220,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(25),
