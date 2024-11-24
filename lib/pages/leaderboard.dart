@@ -63,7 +63,7 @@ class _LeaderboardState extends State<Leaderboard> {
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: Size.fromRadius(20),
-                      child: Image.asset('assets/animals/${widget.users[index]['avatar']}.gif'),
+                      child: Image.asset('assets/animals/${widget.users[index]['avatar']}.gif', color: Colors.white, colorBlendMode: BlendMode.multiply,),
                     ),
                   ),
                   const SizedBox(width: 75,),
