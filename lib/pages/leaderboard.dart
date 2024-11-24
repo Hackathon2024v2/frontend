@@ -13,13 +13,9 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
 
   
-  late Future<List<User>> _futureLeaderboard;
+  
 
-  @override
-  Future<void> initState() async {
-    super.initState();
-    _futureLeaderboard = (await supabase.from('users').select().order('score', ascending: false)) as Future<List<User>>;
-  }
+
 
   @override
   Widget build(BuildContext context) {

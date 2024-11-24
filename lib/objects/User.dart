@@ -48,7 +48,7 @@ class UserData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
     data['first_name'] = first_name;
     data['last_name'] = last_name;
