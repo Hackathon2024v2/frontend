@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pages/home_page.dart';
 import 'package:flutter_application_2/pages/login.dart';
-import 'package:flutter_application_2/pages/workouts.dart';
 import 'package:flutter_application_2/widgets/avatar_card_widget.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -35,6 +33,11 @@ class _RegisterState extends State<Register> {
   String chosenPath = "";
   bool isTapped = false;
 
+  final List<int> years = List<int>.generate(
+    DateTime.now().year - 1900 + 1,
+        (index) => DateTime.now().year - index,
+  ); // Generates years from currentYear to 1900.
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
@@ -42,6 +45,8 @@ class _RegisterState extends State<Register> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final int _ageValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +124,26 @@ class _RegisterState extends State<Register> {
                 hintText: "Enter your last name",
                 validator: inputValidator,
               ),
+            ),
+
+            const SizedBox(height: 15),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(25, 0, 35, 0),
+                child: DropdownButton<int>(
+                  hint: const Text('Select Year'),
+                  value: _ageValue,
+                  items: years.map((year) {
+                    return DropdownMenuItem<int>(
+                      value: year,
+                      child: Text(year.toString()),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _ageController.text = value?.toString() ?? '';
+                    });
+                  },
+                )
             ),
 
             const SizedBox(height: 15),
@@ -325,4 +350,16 @@ class _RegisterState extends State<Register> {
       );
     }
   }
+
+
+  List<int> generateYearList() {
+    final currentYear = DateTime.now().year;
+    final startYear = currentYear - 18; // Youngest valid year
+    const endYear = 1900; // Oldest valid year
+    return List<int>.generate(
+      startYear - endYear + 1,
+          (index) => startYear - index,
+    );
+  }
+
 }

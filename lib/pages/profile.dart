@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/objects/ProfileUser.dart';
 import 'package:flutter_application_2/pages/settings.dart';
 import 'package:flutter_application_2/widgets/profile_attribute.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
