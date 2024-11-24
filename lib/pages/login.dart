@@ -58,7 +58,7 @@ class _LoginState extends State<Login> {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(
-                  "Login successful! Welcome ${response.user!.email}")),
+                  "Login successful! Welcome ${response.user!.userMetadata?["first_name"]}")),
             );
           }
         }
@@ -73,7 +73,11 @@ class _LoginState extends State<Login> {
         setState(() {
           _isLoading = false;
         });
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyHomePage()));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+              (Route<dynamic> route) => false, // Remove all previous routes
+        );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

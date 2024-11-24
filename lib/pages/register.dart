@@ -331,6 +331,7 @@ class _RegisterState extends State<Register> {
 
         if (registerResponse.user != null) {
           await supabase.from('users').insert({
+            "id": registerResponse.user!.id,
             "first_name": firstName[0].toUpperCase() + firstName.substring(1),
             "last_name": lastName[0].toUpperCase() + lastName.substring(1),
             "height": double.parse(_heightController.text),

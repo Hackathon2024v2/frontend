@@ -57,11 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     @override
   Widget build(BuildContext context) {
-      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: color,
-        statusBarIconBrightness: Brightness.dark,
-      ));
-
     return userLoggedIn() == true ?
     FutureBuilder(future: _futureLeaderboard, builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting){
