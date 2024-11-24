@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../widgets/input_with_icon.dart'; // Make sure to import your IconInput widget
 
 class Nutrition extends StatefulWidget {
+  const Nutrition({super.key});
+
   @override
   _NutritionState createState() => _NutritionState();
 }

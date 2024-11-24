@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_application_2/main.dart';
 import 'package:flutter_application_2/pages/leaderboard.dart';
 import 'package:flutter_application_2/pages/nutrition.dart';
 import 'package:flutter_application_2/pages/onboarding.dart';
 import 'package:flutter_application_2/pages/profile.dart';
 import 'package:flutter_application_2/pages/workouts.dart';
 import 'package:flutter_application_2/pages/chat.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../objects/ProfileUser.dart';
@@ -32,15 +36,20 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  @override
+    @override
   Widget build(BuildContext context) {
-    return userLoggedIn() == false ?
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: color,
+        statusBarIconBrightness: Brightness.dark,
+      ));
+
+      return userLoggedIn() == false ?
       Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text('Welcome !Username!'),
-        ),
+        backgroundColor: Colors.white,
         bottomNavigationBar: NavigationBar(
+          height: 70,
+          backgroundColor: color.withOpacity(0.2),
+          indicatorColor: color.withOpacity(0.5),
           onDestinationSelected: (int index) {
             setState(() {
               currentPageIndex = index;
@@ -48,20 +57,20 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           selectedIndex: currentPageIndex,
           destinations: const [
-            NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-            NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
-            NavigationDestination(icon: Icon(Icons.chat), label: "Chat"),
-            NavigationDestination(icon: Icon(Icons.book), label: "Classement"),
-            NavigationDestination(icon: Icon(Icons.breakfast_dining_outlined), label: "Nutrition")
+            NavigationDestination(icon: Icon(LineAwesomeIcons.home_solid), label: "Home"),
+            NavigationDestination(icon: Icon(Iconsax.ranking), label: "Ranking"),
+            NavigationDestination(icon: Icon(LineAwesomeIcons.hamburger_solid), label: "Nutrition"),
+            NavigationDestination(icon: Icon(LineAwesomeIcons.comment_dots_solid), label: "Chat"),
+            NavigationDestination(icon: Icon(LineAwesomeIcons.user), label: "Profile"),
           ],
         ),
        body:
         [
           const Workouts(),
-          Profile(user: userPlaceholder),
-          Chat(),
           const Leaderboard(),
-          Nutrition()
+          Nutrition(),
+          Chat(),
+          Profile(user: userPlaceholder),
         ][currentPageIndex],
       )
       : const OnBoardingScreen();

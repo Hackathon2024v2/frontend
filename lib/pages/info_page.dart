@@ -21,9 +21,7 @@ class _InfoNoteState extends State<InfoNote> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        child: Text(widget.body),
-      )
+      body: Text(widget.body)
     );
            
   }

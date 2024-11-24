@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/main.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../main.dart';
 
 class Chat extends StatefulWidget {
+  const Chat({super.key});
+
   @override
   _ChatState createState() => _ChatState();
 }
@@ -67,11 +70,24 @@ void _sendMessage() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // White background color
+      appBar: AppBar(
+        title: const Text(
+          'WELLNESS GUIDE',
+          style: TextStyle(
+            color: Colors.white, // Red color
+            fontStyle: FontStyle.italic, // Italic style
+            fontSize: 24, // Optional: Adjust size
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: color,
+      ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 final message = messages[index];
@@ -80,15 +96,15 @@ void _sendMessage() async {
                   alignment:
                       isUser ? Alignment.centerRight : Alignment.centerLeft,
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 5),
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
                     decoration: BoxDecoration(
                       color: isUser ? Colors.blue[200] : Colors.grey[200],
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                        bottomLeft: isUser ? Radius.circular(12) : Radius.zero,
-                        bottomRight: isUser ? Radius.zero : Radius.circular(12),
+                        topLeft: const Radius.circular(12),
+                        topRight: const Radius.circular(12),
+                        bottomLeft: isUser ? const Radius.circular(12) : Radius.zero,
+                        bottomRight: isUser ? Radius.zero : const Radius.circular(12),
                       ),
                     ),
                     child: Text(
@@ -104,8 +120,8 @@ void _sendMessage() async {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            margin: EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               color: Colors.white,
@@ -113,7 +129,7 @@ void _sendMessage() async {
                 BoxShadow(
                   color: Colors.grey[300]!,
                   blurRadius: 4,
-                  offset: Offset(0, -2),
+                  offset: const Offset(0, -2),
                 ),
               ],
             ),
@@ -128,18 +144,21 @@ void _sendMessage() async {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       contentPadding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 10),
                 // Send button
                 GestureDetector(
                   onTap: _sendMessage,
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     radius: 24,
-                    backgroundColor: Color.fromARGB(255, 138, 105, 82),
-                    child: Icon(Icons.send, color: Colors.white),
+                    backgroundColor: color,
+                    child: Icon(
+                      LineAwesomeIcons.paper_plane_solid,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
